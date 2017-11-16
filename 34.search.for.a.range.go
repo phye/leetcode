@@ -3,19 +3,12 @@ package main
 import "fmt"
 
 func searchRange(nums []int, target int) []int {
-	if len(nums) == 0 {
-		return []int{-1, -1}
-	}
-	if len(nums) == 1 {
-		if nums[0] == target {
-			return []int{1}
-		} else {
-			return []int{-1, -1}
-		}
-	}
 	start := 0
 	end := len(nums) - 1
 	for {
+		if start > end {
+			return []int{-1, -1}
+		}
 		mid := (end + start) / 2
 		if nums[mid] == target {
 			var l, r int
@@ -29,13 +22,10 @@ func searchRange(nums []int, target int) []int {
 		} else {
 			end = mid - 1
 		}
-		if start > end {
-			return []int{-1, -1}
-		}
 	}
 }
 
 func main() {
-	ret := searchRange([]int{2, 2}, 2)
+	ret := searchRange([]int{}, 2)
 	fmt.Printf("%v\n", ret)
 }
