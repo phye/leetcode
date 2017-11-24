@@ -1,27 +1,30 @@
-package leetcode
+package main
 
-func lengthOfLongestSubString(s string) int {
+import (
+	"fmt"
+)
+
+func lengthOfLongestSubstring(s string) int {
 	longest := 0
-	buf := []byte(s)
 	lm := make(map[byte]int)
-	for i := 0; i < len(buf); i++ {
-		if prev, ok := lm[buf[i]]; !ok {
-			lm[buf[i]] = i
-			continue
-		} else {
-			if len(lm) > longest {
-				longest = len(lm)
-			}
-			lm = make(map[byte]int)
-			for j := prev + 1; j <= i; j++ {
-				lm[buf[j]] = j
+	// last unrepeated char
+	last := 0
+	for i := 0; i < len(s); i++ {
+		if prev, ok := lm[s[i]]; ok {
+			if last < prev+1 {
+				last = prev + 1
 			}
 		}
-	}
-
-	// Incase there's no any repeating charaters until end of string
-	if len(lm) > longest {
-		longest = len(lm)
+		if i-last+1 > longest {
+			longest = i - last + 1
+		}
+		lm[s[i]] = i
 	}
 	return longest
+}
+
+func main() {
+	fmt.Printf("%v\n", lengthOfLongestSubstring("abba"))
+	fmt.Printf("%v\n", lengthOfLongestSubstring("pwwkew"))
+	fmt.Printf("%v\n", lengthOfLongestSubstring("abcdef"))
 }
