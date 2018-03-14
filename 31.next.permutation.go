@@ -4,18 +4,18 @@ import (
 	"fmt"
 )
 
-func nextPermutation(nums []int) []int {
+func nextPermutation(nums []int) {
 	n := len(nums)
-	ret := make([]int, n)
 	var i, j int
 	// From the end, find the first one with index such that num[i-1] < num[i]
 	for i = n - 1; i > 0 && nums[i-1] >= nums[i]; i-- {
 	}
+	// If no such one were find, nums is already reversly sorted
 	if i == 0 {
-		for k := 0; k < n; k++ {
-			ret[k] = nums[n-k-1]
+		for k := 0; k < n/2; k++ {
+			nums[k], nums[n-k-1] = nums[n-k-1], nums[k]
 		}
-		return ret
+		return
 	}
 
 	// From the end, find the first one which is larger than nums[i-1]
@@ -25,18 +25,17 @@ func nextPermutation(nums []int) []int {
 	// swap ret at i-1 and j
 	nums[i-1], nums[j] = nums[j], nums[i-1]
 
-	// reversly sort nums[i:] and store in ret
-	copy(ret[:i], nums[:i])
-	for j := n - 1; j >= i; j-- {
-		ret[n-j-1+i] = nums[j]
+	// reversly sort nums[i:] and store in ret, note the (i+n)/2, i.e, i+(n-i)/2
+	for k := 0; k < (n-i)/2; k++ {
+		nums[i+k], nums[n-1-k] = nums[n-1-k], nums[i+k]
 	}
-	return ret
+	return
 }
 
 func main() {
 	nums := []int{1, 2, 3, 4}
 	for i := 0; i < 25; i++ {
 		fmt.Printf("%v\n", nums)
-		nums = nextPermutation(nums)
+		nextPermutation(nums)
 	}
 }
