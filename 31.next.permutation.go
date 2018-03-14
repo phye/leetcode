@@ -22,10 +22,10 @@ func nextPermutation(nums []int) {
 	for j = n - 1; nums[i-1] >= nums[j]; j-- {
 	}
 
-	// swap ret at i-1 and j
+	// swap nums at i-1 and j
 	nums[i-1], nums[j] = nums[j], nums[i-1]
 
-	// reversly sort nums[i:] and store in ret, note the (i+n)/2, i.e, i+(n-i)/2
+	// reversly sort nums[i:] via swap
 	for k := 0; k < (n-i)/2; k++ {
 		nums[i+k], nums[n-1-k] = nums[n-1-k], nums[i+k]
 	}
